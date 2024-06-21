@@ -1,9 +1,7 @@
-version: "3.3"
-
 services:
   traefik:
     image: "traefik:v2.6"
-    container_name: "trae"
+    container_name: "traefik"
     command:
       - "--api.insecure=true"
       - "--api.dashboard=true"
@@ -15,12 +13,12 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=MY@EMAIL"
+      - "--certificatesresolvers.myresolver.acme.email=feralnat1980@gmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "traefik.http.routers.redirect-https.middlewares=redirect-to-https"  
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`CNAME.MYDOMAINE.COM`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.feralnat.com`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik.service=api@internal"
@@ -47,7 +45,7 @@ services:
       - web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.simple-service.rule=Host(`CNAME.MYDOMAINE.COM`)"
+      - "traefik.http.routers.simple-service.rule=Host(`whoami.feralnat.com`)"
       - "traefik.http.routers.simple-service.entrypoints=websecure"
       - "traefik.http.routers.simple-service.tls.certresolver=myresolver"
       - "traefik.http.routers.simple-service.middlewares=auth-middleware"
@@ -65,7 +63,7 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`CNAME.MYDOMAINE.COM`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.feralnat.com`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
